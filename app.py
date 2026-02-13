@@ -4,213 +4,220 @@ from datetime import datetime
 import os
 
 # 1. Page Configuration
-st.set_page_config(page_title="Fastech | Dashboard Monitoring", layout="wide", page_icon="🏗️")
+st.set_page_config(page_title="Fastech | Elite Dashboard", layout="wide", page_icon="🏗️")
 
-# 2. CSS Premium: Orange, Black, White
+# 2. CSS Elite Dark Mode (Ultra Premium)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
-    /* Background Utama Putih */
+    /* Background Utama Hitam Pekat */
     .stApp {
-        background-color: #ffffff !important;
+        background-color: #0e1117 !important;
+        color: #ffffff !important;
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Hilangkan Elemen Default Streamlit */
+    /* Sembunyikan Elemen Default */
     header {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* Header Premium Orange-Hitam */
+    /* Header Premium Dark Gradient */
     .premium-header {
-        background: linear-gradient(135deg, #FF6B00 0%, #E65C00 100%);
-        padding: 55px 45px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 50px;
         border-radius: 20px;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         color: white !important;
-        box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
-        border-bottom: 8px solid #1a1a1a;
+        border: 1px solid #FF6B00;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
     .premium-header h1 { 
-        color: #ffffff !important; 
+        color: #FF6B00 !important; 
         font-weight: 800; 
         margin: 0; 
         font-size: 2.8rem; 
-        letter-spacing: -1.5px;
+        letter-spacing: -1px;
+        text-shadow: 2px 2px 10px rgba(255, 107, 0, 0.3);
     }
     .premium-header p { 
-        color: #1a1a1a !important; 
-        font-size: 1.15rem; 
-        margin-top: 8px; 
-        font-weight: 600;
+        color: #d1d1d1 !important; 
+        font-size: 1.1rem; 
+        margin-top: 10px; 
         opacity: 0.9;
     }
 
-    /* Metric Cards - Orange Accent */
+    /* Metric Cards - Dark Glassmorphism */
     div[data-testid="stMetric"] {
-        background: #ffffff !important;
-        border: 2px solid #f0f0f0 !important;
+        background: #1a1a1a !important;
+        border: 1px solid #333 !important;
         padding: 25px !important;
         border-radius: 18px !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.02) !important;
-        border-top: 5px solid #FF6B00 !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
     }
-    div[data-testid="stMetric"] label { color: #1a1a1a !important; font-weight: 700 !important; }
+    div[data-testid="stMetric"] label { color: #aaaaaa !important; font-weight: 600 !important; }
     div[data-testid="stMetric"] div { color: #FF6B00 !important; font-weight: 800 !important; }
 
-    /* Jam Real-time - Black & Orange */
+    /* Jam Real-time Neon */
     .clock-widget {
-        background: #1a1a1a;
-        padding: 12px 28px;
+        background: #000000;
+        padding: 12px 30px;
         border-radius: 50px;
         color: #FF6B00 !important;
         font-weight: 800;
         display: inline-block;
-        border: 2px solid #FF6B00;
-        margin-bottom: 20px;
-        font-size: 1rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border: 1px solid #FF6B00;
+        margin-bottom: 25px;
+        box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
     }
 
-    /* Form Expander - Orange Theme */
-    .stExpander {
-        border: 1px solid #FF6B00 !important;
-        border-radius: 15px !important;
-        background-color: #fff9f5 !important;
+    /* Sidebar Dark Mode */
+    section[data-testid="stSidebar"] {
+        background-color: #000000 !important;
+        border-right: 1px solid #333;
+    }
+    section[data-testid="stSidebar"] * {
+        color: white !important;
     }
 
-    /* Tombol Hitam Premium */
-    .stButton>button {
+    /* Input Fields & Form */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
         background-color: #1a1a1a !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+
+    /* Tombol Neon Orange */
+    .stButton>button {
+        background-color: transparent !important;
         color: #FF6B00 !important;
         border: 2px solid #FF6B00 !important;
         border-radius: 12px !important;
         font-weight: 800 !important;
+        width: 100%;
         transition: 0.3s;
     }
     .stButton>button:hover {
         background-color: #FF6B00 !important;
-        color: #1a1a1a !important;
+        color: #000000 !important;
+        box-shadow: 0 0 20px rgba(255, 107, 0, 0.6);
     }
 
-    /* Tab Styling */
+    /* Tab Styling Dark */
     .stTabs [data-baseweb="tab-list"] { gap: 15px; }
     .stTabs [data-baseweb="tab"] {
-        background-color: #f8f9fa;
-        border-radius: 12px 12px 0 0;
+        background-color: #1a1a1a;
+        color: #888;
+        border-radius: 10px 10px 0 0;
         padding: 12px 25px;
-        color: #1a1a1a;
-        font-weight: 600;
     }
     .stTabs [aria-selected="true"] {
         background-color: #FF6B00 !important;
-        color: white !important;
+        color: black !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Real-time Clock Logic (Orange Accent)
+# 3. Widget Jam Real-time (Neon JavaScript)
 st.markdown("""
     <div style="text-align: right;">
-        <div id="orange-clock" class="clock-widget">🕒 Sinkronisasi Waktu...</div>
+        <div id="neon-clock" class="clock-widget">🕒 Menghubungkan...</div>
     </div>
     <script>
-    function refreshClock() {
-        const skr = new Date();
-        const opsi = { 
+    function updateClock() {
+        const now = new Date();
+        const options = { 
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
             hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false 
         };
-        const jamStr = new Intl.DateTimeFormat('id-ID', opsi).format(skr);
-        const el = document.getElementById('orange-clock');
-        if (el) { el.innerHTML = '🕒 ' + jamStr; }
+        document.getElementById('neon-clock').innerHTML = '🕒 ' + new Intl.DateTimeFormat('id-ID', options).format(now);
     }
-    setInterval(refreshClock, 1000);
-    refreshClock();
+    setInterval(updateClock, 1000);
+    updateClock();
     </script>
     """, unsafe_allow_html=True)
 
-# 4. Database Helper
-DB_FILE = "tasks_fastech_v7.csv"
+# 4. Data Core
+DB_FILE = "fastech_elite_db.csv"
 def load_db():
     if os.path.exists(DB_FILE):
         return pd.read_csv(DB_FILE)
-    return pd.DataFrame(columns=["Proyek", "Tugas", "PIC", "Deadline", "Status", "Waktu"])
+    return pd.DataFrame(columns=["Proyek", "Deskripsi", "PIC", "Deadline", "Status", "Input_At"])
 
 # --- HEADER ---
 st.markdown("""
     <div class="premium-header">
         <h1>Fastech Architect | Dashboard Monitoring</h1>
-        <p>TIM CREATIVE • OPERATIONAL CONTROL SYSTEM</p>
+        <p>TIM CREATIVE • DARK MODE ELITE OPERATIONAL CONTROL</p>
     </div>
     """, unsafe_allow_html=True)
 
-# --- PANEL TAMBAH TUGAS (Orange Accents) ---
-with st.expander("➕ TAMBAH TUGAS BARU (KLIK DISINI)", expanded=False):
-    with st.form("form_fastech", clear_on_submit=True):
+# --- PANEL INPUT (Hidden in Expander) ---
+with st.expander("➕ DAFTARKAN PEKERJAAN BARU", expanded=False):
+    with st.form("elite_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
         with c1:
-            name = st.text_input("Nama Proyek", placeholder="Contoh: Gedung Arsitektur A")
-            # List PIC sesuai request
-            pic = st.selectbox("Assign Ke", ["Tim CS", "PIC / Owner", "Tim Drafter", "Other"])
+            name = st.text_input("Nama Proyek")
+            # List PIC sesuai permintaan
+            pic = st.selectbox("PIC", ["Tim CS", "PIC / Owner", "Tim Drafter", "Other"])
         with c2:
             limit = st.date_input("Deadline")
-            short_task = st.text_input("Ringkasan Tugas", placeholder="Contoh: Revisi Fasad")
+            short_desc = st.text_input("Ringkasan Tugas")
         
         detail = st.text_area("Detail Instruksi Lengkap")
         
-        if st.form_submit_button("SIMPAN DATA KE SISTEM"):
-            if name and short_task:
-                new_row = pd.DataFrame([[name, f"{short_task} - {detail}", pic, str(limit), "To Do", datetime.now().strftime("%d/%m/%Y %H:%M")]],
-                                        columns=["Proyek", "Tugas", "PIC", "Deadline", "Status", "Waktu"])
+        if st.form_submit_button("LOCK DATA KE DATABASE"):
+            if name and short_desc:
+                new_data = pd.DataFrame([[name, f"{short_desc} - {detail}", pic, str(limit), "To Do", datetime.now().strftime("%d/%m/%Y %H:%M")]],
+                                        columns=["Proyek", "Deskripsi", "PIC", "Deadline", "Status", "Input_At"])
                 df = load_db()
-                df = pd.concat([df, new_row], ignore_index=True)
+                df = pd.concat([df, new_data], ignore_index=True)
                 df.to_csv(DB_FILE, index=False)
-                st.balloons()
+                st.success("Data Terkunci!")
                 st.rerun()
 
-# --- DASHBOARD STATS ---
+# --- STATISTICS ---
 df = load_db()
-col_a, col_b, col_c = st.columns(3)
-col_a.metric("Total Proyek", len(df))
-col_b.metric("On Progress", len(df[df['Status'] != "Done"]))
-col_c.metric("Selesai", len(df[df['Status'] == "Done"]))
+col1, col2, col3 = st.columns(3)
+col1.metric("TOTAL PROJECT", len(df))
+col2.metric("ACTIVE TASKS", len(df[df['Status'] != "Done"]))
+col3.metric("COMPLETED", len(df[df['Status'] == "Done"]))
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# --- TASK MONITORING ---
-t_active, t_done = st.tabs(["🔥 Pekerjaan Berjalan", "📜 Riwayat Archive"])
+# --- TASK DISPLAY ---
+tab_active, tab_history = st.tabs(["⚡ MONITORING AKTIF", "📂 ARSIP SELESAI"])
 
-with t_active:
+with tab_active:
     ongoing = df[df['Status'] != "Done"]
     if not ongoing.empty:
-        for i, r in ongoing.iterrows():
+        for i, row in ongoing.iterrows():
             st.markdown(f"""
-            <div style="background: white; padding: 25px; border: 1px solid #eee; border-radius: 18px; margin-bottom: 20px; border-left: 10px solid #FF6B00; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-                <h3 style="margin:0; color:#1a1a1a;">{r['Proyek']}</h3>
-                <p style="color:#FF6B00; font-weight: bold; margin-bottom: 10px;">PIC: {r['PIC']} | Deadline: {r['Deadline']}</p>
-                <div style="background:#fdfdfd; padding:15px; border-radius:10px; border:1px dashed #FF6B00; color:#333; font-size:0.95rem;">{r['Tugas']}</div>
+            <div style="background: #1a1a1a; padding: 25px; border: 1px solid #333; border-radius: 15px; margin-bottom: 20px; border-left: 8px solid #FF6B00;">
+                <h3 style="margin:0; color:#FF6B00;">{row['Proyek']}</h3>
+                <p style="color:#888; font-weight: bold; margin-bottom: 10px;">{row['PIC']} | Target: {row['Deadline']}</p>
+                <div style="color:#d1d1d1; font-size:1rem; border-top: 1px solid #333; padding-top:10px;">{row['Deskripsi']}</div>
             </div>
             """, unsafe_allow_html=True)
             
-            # Control Row
+            # Update & Action
             ca, cb = st.columns([4, 1])
-            up_status = ca.select_slider("Status Update", options=["To Do", "In Progress", "Done"], value=r['Status'], key=f"up_{i}")
-            if cb.button("🗑️ Hapus", key=f"del_{i}"):
+            new_st = ca.select_slider("PROGRES", options=["To Do", "In Progress", "Done"], value=row['Status'], key=f"s_{i}")
+            if cb.button("HAPUS", key=f"d_{i}"):
                 df = df.drop(i)
                 df.to_csv(DB_FILE, index=False)
                 st.rerun()
             
-            if up_status != r['Status']:
-                df.at[i, 'Status'] = up_status
+            if new_st != row['Status']:
+                df.at[i, 'Status'] = new_st
                 df.to_csv(DB_FILE, index=False)
                 st.rerun()
     else:
-        st.info("Semua proyek sudah selesai atau belum ada input baru.")
+        st.info("Zero tasks active. System standby.")
 
-with t_done:
-    arsip = df[df['Status'] == "Done"]
-    if not arsip.empty:
-        st.table(arsip[["Proyek", "PIC", "Deadline", "Waktu"]])
+with tab_history:
+    done = df[df['Status'] == "Done"]
+    if not done.empty:
+        st.dataframe(done, use_container_width=True)
     else:
-        st.caption("Arsip pekerjaan selesai masih kosong.")
+        st.caption("Belum ada riwayat pekerjaan.")
